@@ -1,0 +1,21 @@
+{
+  "name": "v-v-pkm-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal Knowledge Management Desktop System",
+  "scripts": {
+    "dev": "pnpm --filter desktop dev",
+    "build": "pnpm --filter desktop build",
+    "preview": "pnpm --filter desktop preview",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

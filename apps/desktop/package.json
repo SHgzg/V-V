@@ -1,0 +1,25 @@
+{
+  "name": "desktop",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./out/main/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@v-v/git-adapter": "workspace:*",
+    "@v-v/shared": "workspace:*",
+    "@v-v/window-manager": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "electron": "^30.5.1",
+    "electron-vite": "^2.0.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  }
+}

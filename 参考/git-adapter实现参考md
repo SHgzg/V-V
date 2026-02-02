@@ -1,0 +1,240 @@
+// packages/git-adapter/src/domain/repository.ts
+···
+export interface GitRepository {
+  id: string
+  name: string
+  workdir: string
+  remote: {
+    url: string
+    branch: string
+  }
+}
+
+// packages/git-adapter/src/domain/status.ts
+
+export type GitFileStatusType =
+  | 'added'
+  | 'modified'
+  | 'deleted'
+  | 'untracked'
+  | 'unchanged'
+
+export interface GitFileStatus {
+  path: string
+  status: GitFileStatusType
+}
+
+// packages/git-adapter/src/engine/fs.ts
+
+import fs from 'fs'
+export const gitFs = fs
+
+// packages/git-adapter/src/engine/auth.ts
+
+export interface GitAuth {
+  username?: string
+  password?: string // token
+}
+
+// packages/git-adapter/src/engine/client.ts
+
+import git from 'isomorphic-git'
+import { gitFs } from './fs'
+import { GitAuth } from './auth'
+
+export async function cloneRepo(
+  dir: string,
+  url: string,
+  branch: string,
+  auth?: GitAuth
+) {
+  await git.clone({
+    fs: gitFs,
+    dir,
+    url,
+    ref: branch,
+    singleBranch: true,
+    depth: 1,
+    onAuth: () => auth || {}
+  })
+}
+
+export async function pullRepo(dir: string, auth?: GitAuth) {
+  await git.pull({
+    fs: gitFs,
+    dir,
+    singleBranch: true,
+    onAuth: () => auth || {}
+  })
+}
+
+export async function commitAll(dir: string, message: string) {
+  const matrix = await git.statusMatrix({ fs: gitFs, dir })
+
+  for (const [filepath, head, workdir] of matrix) {
+    if (head !== workdir) {
+      await git.add({ fs: gitFs, dir, filepath })
+    }
+  }
+
+  await git.commit({
+    fs: gitFs,
+    dir,
+    message,
+    author: {
+      name: 'PKM User',
+      email: 'user@local'
+    }
+  })
+}
+
+export async function pushRepo(dir: string, auth?: GitAuth) {
+  await git.push({
+    fs: gitFs,
+    dir,
+    onAuth: () => auth || {}
+  })
+}
+
+export async function diffFile(dir: string, filepath: string) {
+  const diff = await git.diff({
+    fs: gitFs,
+    dir,
+    filepath
+  })
+
+  return diff
+}
+  })
+}
+
+export async function pullRepo(dir: string, auth?: GitAuth) {
+  await git.pull({
+    fs: gitFs,
+    dir,
+    singleBranch: true,
+    onAuth: () => auth || {}
+  })
+}
+
+export async function commitAll(dir: string, message: string) {
+  const matrix = await git.statusMatrix({ fs: gitFs, dir })
+
+  for (const [filepath, head, workdir, stage] of matrix) {
+    if (head !== workdir) {
+      await git.add({ fs: gitFs, dir, filepath })
+    }
+  }
+
+  await git.commit({
+    fs: gitFs,
+    dir,
+    message,
+    author: {
+      name: 'PKM User',
+      email: 'user@local'
+    }
+  })
+}
+
+export async function pushRepo(dir: string, auth?: GitAuth) {
+  await git.push({
+    fs: gitFs,
+    dir,
+    onAuth: () => auth || {}
+  })
+}
+
+// packages/git-adapter/src/service/git.service.ts
+
+import { GitRepository } from '../domain/repository'
+import { GitFileStatus } from '../domain/status'
+import * as engine from '../engine/client'
+import git from 'isomorphic-git'
+import { gitFs } from '../engine/fs'
+
+export class GitService {
+  constructor(private authProvider: () => any) {}
+
+  async clone(repo: GitRepository) {
+    await engine.cloneRepo(
+      repo.workdir,
+      repo.remote.url,
+      repo.remote.branch,
+      this.authProvider()
+    )
+  }
+
+  async pull(repo: GitRepository) {
+    await engine.pullRepo(repo.workdir, this.authProvider())
+  }
+
+  async status(repo: GitRepository): Promise<GitFileStatus[]> {
+    const matrix = await git.statusMatrix({
+      fs: gitFs,
+      dir: repo.workdir
+    })
+
+    return matrix.map(([path, head, workdir]) => ({
+      path,
+      status:
+        head === 0 && workdir > 0
+          ? 'untracked'
+          : head !== workdir
+          ? 'modified'
+          : 'unchanged'
+    }))
+  }
+
+  async diff(repo: GitRepository, filepath: string) {
+    return engine.diffFile(repo.workdir, filepath)
+  }
+
+  async commit(repo: GitRepository, message: string) {
+    await engine.commitAll(repo.workdir, message)
+  }
+
+  async push(repo: GitRepository) {
+    await engine.pushRepo(repo.workdir, this.authProvider())
+  }
+}
+
+  async clone(repo: GitRepository) {
+    await engine.cloneRepo(
+      repo.workdir,
+      repo.remote.url,
+      repo.remote.branch,
+      this.authProvider()
+    )
+  }
+
+  async pull(repo: GitRepository) {
+    await engine.pullRepo(repo.workdir, this.authProvider())
+  }
+
+  async status(repo: GitRepository): Promise<GitFileStatus[]> {
+    const matrix = await git.statusMatrix({
+      fs: gitFs,
+      dir: repo.workdir
+    })
+
+    return matrix.map(([path, head, workdir]) => ({
+      path,
+      status:
+        head === 0 && workdir > 0
+          ? 'untracked'
+          : head !== workdir
+          ? 'modified'
+          : 'unchanged'
+    }))
+  }
+
+  async commit(repo: GitRepository, message: string) {
+    await engine.commitAll(repo.workdir, message)
+  }
+
+  async push(repo: GitRepository) {
+    await engine.pushRepo(repo.workdir, this.authProvider())
+  }
+}
+
