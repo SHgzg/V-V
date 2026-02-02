@@ -26,7 +26,7 @@ export class WindowManager {
       frame: false,
       titleBarStyle: 'hidden',
       webPreferences: {
-        preload: path.join(__dirname, '../../preload/dist/index.js'),
+        preload: path.join(__dirname, '../preload/index.js'),
         contextIsolation: true,
         nodeIntegration: false
       }

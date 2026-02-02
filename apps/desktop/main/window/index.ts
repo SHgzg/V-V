@@ -23,10 +23,9 @@ export function createMainWindow(
 
   const windowDesc = { ...defaultDesc, ...desc }
 
-  const isDev = process.env.NODE_ENV === 'development'
-  const loadURL = isDev
-    ? 'http://localhost:5173'
-    : `file://${path.join(__dirname, '../renderer-host/index.html')}`
+  // Load HTML file directly
+  const htmlPath = path.join(__dirname, '../../renderer/index.html')
+  const loadURL = `file://${htmlPath}`
 
   manager.create(windowDesc, loadURL)
 }

@@ -13,7 +13,8 @@
       "Bash(pnpm build:*)",
       "Bash(pnpm install:*)",
       "Bash(node:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git branch:*)"
     ],
     "deny": [],
     "ask": []
