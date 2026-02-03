@@ -2,18 +2,25 @@
   "name": "@v-v/window-manager",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
+  "level": "L2",
+  "description": "Electron 窗口管理器 - Electron 专属库",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
   },
   "dependencies": {
-    "@v-v/shared": "workspace:*",
-    "electron": "^30.0.0"
+    "@v-v/shared": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5"
+    "@types/node": "^20.11.5",
+    "@electron-toolkit/tsconfig": "^2.0.0"
   }
 }

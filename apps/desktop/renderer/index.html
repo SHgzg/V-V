@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,263 +12,313 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #1a1a1a;
-      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
       height: 100vh;
       overflow: hidden;
     }
 
-    .titlebar {
-      height: 32px;
-      background: #2d2d2d;
-      border-bottom: 1px solid #3d3d3d;
+    #app {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-app-region: drag;
+      flex-direction: column;
+      height: 100%;
     }
 
-    .titlebar h1 {
-      font-size: 13px;
-      font-weight: 500;
+    /* 顶部导航栏 */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .container {
-      padding: 20px;
-      height: calc(100vh - 32px);
+    .header h1 {
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+
+    .header .subtitle {
+      font-size: 0.85em;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+
+    /* 主内容区 */
+    .main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* 侧边栏 */
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-right: 1px solid #e0e0e0;
+      padding: 15px;
       overflow-y: auto;
     }
 
-    h2 {
-      font-size: 18px;
-      margin-bottom: 16px;
+    .sidebar-section {
+      margin-bottom: 25px;
     }
 
-    .section {
-      background: #2d2d2d;
+    .sidebar-title {
+      font-size: 0.75em;
+      text-transform: uppercase;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
       border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 5px;
     }
 
-    .section h3 {
-      font-size: 14px;
-      margin-bottom: 12px;
-      color: #909090;
+    .sidebar-item:hover {
+      background: #f5f5f5;
     }
 
-    button {
-      background: #0078d4;
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+      color: #667eea;
+    }
+
+    .sidebar-item-icon {
+      margin-right: 10px;
+      font-size: 1.2em;
+    }
+
+    .sidebar-item-text {
+      flex: 1;
+      font-size: 0.9em;
+    }
+
+    .sidebar-item-count {
+      background: #667eea;
+      color: white;
+      font-size: 0.75em;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* 内容区 */
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .welcome {
+      max-width: 600px;
+    }
+
+    .welcome h2 {
+      font-size: 2em;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .welcome p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .card h3 {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    /* 按钮 */
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 13px;
-      margin-right: 8px;
+      font-size: 0.9em;
+      transition: all 0.2s;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn.secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn.secondary:hover {
+      background: #e0e0e0;
+    }
+
+    /* 子前端列表 */
+    .window-list {
+      list-style: none;
+    }
+
+    .window-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 8px;
       margin-bottom: 8px;
     }
 
-    button:hover {
-      background: #1084d8;
+    .window-item-name {
+      flex: 1;
+      font-size: 0.9em;
     }
 
-    input {
-      background: #1a1a1a;
-      border: 1px solid #3d3d3d;
-      color: #e0e0e0;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 13px;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      color: #909090;
-      margin-bottom: 4px;
-    }
-
-    #output {
-      background: #1a1a1a;
-      border: 1px solid #3d3d3d;
-      border-radius: 4px;
-      padding: 12px;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 12px;
-      min-height: 200px;
-      white-space: pre-wrap;
-      overflow-y: auto;
-    }
-
-    .status-item {
+    .window-item-actions {
       display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      border-bottom: 1px solid #3d3d3d;
+      gap: 5px;
     }
 
-    .status-item:last-child {
-      border-bottom: none;
+    .window-item-actions button {
+      background: white;
+      border: 1px solid #e0e0e0;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8em;
     }
 
-    .status-path {
-      font-size: 12px;
+    .window-item-actions button:hover {
+      background: #f0f0f0;
     }
 
-    .status-badge {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 3px;
-      background: #3d3d3d;
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 8px;
     }
 
-    .status-badge.modified { background: #d4a017; color: #000; }
-    .status-badge.untracked { background: #1084d8; }
-    .status-badge.unchanged { background: #3d3d3d; }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
   </style>
 </head>
 <body>
-  <div class="titlebar">
-    <h1>V-V PKM Desktop</h1>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="header">
+      <h1>V-V PKM Desktop</h1>
+      <p class="subtitle">Personal Knowledge Management System - 多窗口子前端架构</p>
+    </header>
+
+    <!-- 主内容 -->
+    <div class="main">
+      <!-- 侧边栏 -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">子前端</div>
+          <div class="sidebar-item active" onclick="showSection('welcome')">
+            <span class="sidebar-item-icon">🏠</span>
+            <span class="sidebar-item-text">首页</span>
+          </div>
+          <div class="sidebar-item" onclick="showSection('windows')">
+            <span class="sidebar-item-icon">🪟</span>
+            <span class="sidebar-item-text">窗口管理</span>
+            <span class="sidebar-item-count" id="window-count">0</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">快捷操作</div>
+          <div class="sidebar-item" onclick="openExampleWindow()">
+            <span class="sidebar-item-icon">🚀</span>
+            <span class="sidebar-item-text">打开示例</span>
+          </div>
+          <div class="sidebar-item" onclick="closeAllWindows()">
+            <span class="sidebar-item-icon">❌</span>
+            <span class="sidebar-item-text">关闭所有</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 内容区 -->
+      <main class="content" id="content">
+        <!-- 首页内容 -->
+        <div class="welcome" id="section-welcome">
+          <h2>欢迎使用 V-V PKM</h2>
+
+          <div class="card">
+            <h3>🎯 架构特点</h3>
+            <p>本应用采用 BrowserWindow 多窗口子前端架构，支持灵活的前端插拔能力。每个子前端都是独立的窗口，可以使用不同的前端技术栈。</p>
+          </div>
+
+          <div class="card">
+            <h3>🪟 多窗口支持</h3>
+            <p>可以同时打开多个子前端窗口，每个窗口独立运行，互不干扰。适合同时查看多个笔记、文章或进行多任务操作。</p>
+          </div>
+
+          <div class="card">
+            <h3>🔌 插件化架构</h3>
+            <p>子前端完全独立构建，不参与主应用打包。可以随时添加新的子前端，支持 Vue、React、Svelte 等任意技术栈。</p>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button class="btn" onclick="openExampleWindow()">打开示例子前端</button>
+            <button class="btn secondary" onclick="openMultipleWindows()">打开多个示例</button>
+          </div>
+        </div>
+
+        <!-- 窗口管理内容 -->
+        <div class="welcome" id="section-windows" style="display: none;">
+          <h2>窗口管理</h2>
+          <div class="card">
+            <h3>当前打开的窗口</h3>
+            <ul class="window-list" id="window-list">
+              <li style="padding: 10px; color: #999;">暂无打开的窗口</li>
+            </ul>
+          </div>
+          <div style="margin-top: 20px;">
+            <button class="btn" onclick="refreshWindowList()">刷新列表</button>
+            <button class="btn secondary" onclick="closeAllWindows()">关闭所有</button>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
 
-  <div class="container">
-    <h2>V-V PKM Desktop</h2>
-    <p style="margin-bottom: 20px; color: #909090;">Personal Knowledge Management System</p>
-
-    <div class="section">
-      <h3>Repository Configuration</h3>
-      <label for="repoUrl">Repository URL</label>
-      <input type="text" id="repoUrl" placeholder="https://github.com/username/repo.git" value="https://github.com/user/test-repo.git">
-
-      <label for="repoName">Repository Name</label>
-      <input type="text" id="repoName" placeholder="test-repo" value="test-repo">
-
-      <label for="repoBranch">Branch</label>
-      <input type="text" id="repoBranch" placeholder="main" value="main">
-
-      <label for="repoPath">Local Path</label>
-      <input type="text" id="repoPath" placeholder="/path/to/local/repo" value="C:/Users/Administrator/.pkm/repos/test-repo">
-
-      <button id="cloneBtn">Clone Repository</button>
-      <button id="statusBtn">Get Status</button>
-      <button id="pullBtn">Pull Changes</button>
-    </div>
-
-    <div class="section">
-      <h3>Commit Changes</h3>
-      <label for="commitMessage">Commit Message</label>
-      <input type="text" id="commitMessage" placeholder="Add your commit message here">
-
-      <button id="commitBtn">Commit</button>
-      <button id="pushBtn">Push to Remote</button>
-    </div>
-
-    <div class="section">
-      <h3>Output / Status</h3>
-      <div id="output">Ready. Configure repository and click Clone to start.</div>
-    </div>
-  </div>
-
-  <script>
-    const output = document.getElementById('output');
-
-    function log(message) {
-      output.textContent += message + '\n';
-      output.scrollTop = output.scrollHeight;
-    }
-
-    function clearOutput() {
-      output.textContent = '';
-    }
-
-    function getRepoConfig() {
-      return {
-        id: 'default',
-        name: document.getElementById('repoName').value,
-        workdir: document.getElementById('repoPath').value,
-        remote: {
-          url: document.getElementById('repoUrl').value,
-          branch: document.getElementById('repoBranch').value
-        }
-      };
-    }
-
-    document.getElementById('cloneBtn').addEventListener('click', async () => {
-      const repo = getRepoConfig();
-      clearOutput();
-      log('Cloning repository...');
-      try {
-        await window.electronAPI.git.clone(repo);
-        log('✓ Repository cloned successfully!');
-      } catch (error) {
-        log('✗ Error: ' + error.message);
-      }
-    });
-
-    document.getElementById('statusBtn').addEventListener('click', async () => {
-      const repo = getRepoConfig();
-      clearOutput();
-      log('Getting repository status...\n');
-      try {
-        const status = await window.electronAPI.git.status(repo);
-        if (status.length === 0) {
-          log('No changes detected.');
-        } else {
-          status.forEach(item => {
-            const badge = ` [${item.status}] `;
-            log(`${badge} ${item.path}`);
-          });
-        }
-      } catch (error) {
-        log('✗ Error: ' + error.message);
-      }
-    });
-
-    document.getElementById('pullBtn').addEventListener('click', async () => {
-      const repo = getRepoConfig();
-      clearOutput();
-      log('Pulling changes...');
-      try {
-        await window.electronAPI.git.pull(repo);
-        log('✓ Pull successful!');
-      } catch (error) {
-        log('✗ Error: ' + error.message);
-      }
-    });
-
-    document.getElementById('commitBtn').addEventListener('click', async () => {
-      const repo = getRepoConfig();
-      const message = document.getElementById('commitMessage').value;
-      if (!message) {
-        log('✗ Please enter a commit message');
-        return;
-      }
-      clearOutput();
-      log('Committing changes...');
-      try {
-        await window.electronAPI.git.commit(repo, message);
-        log('✓ Commit successful!');
-      } catch (error) {
-        log('✗ Error: ' + error.message);
-      }
-    });
-
-    document.getElementById('pushBtn').addEventListener('click', async () => {
-      const repo = getRepoConfig();
-      clearOutput();
-      log('Pushing to remote...');
-      try {
-        await window.electronAPI.git.push(repo);
-        log('✓ Push successful!');
-      } catch (error) {
-        log('✗ Error: ' + error.message);
-      }
-    });
-  </script>
+  <script type="module" src="./renderer.js"></script>
 </body>
 </html>

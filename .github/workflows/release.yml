@@ -1,0 +1,99 @@
+# V-V PKM Desktop - GitHub Actions Release Workflow
+# 遵循发布和部署规范 v1
+# Git Tag 触发自动构建和发布
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # 匹配 v1.0.0 格式的版本标签
+
+permissions:
+  contents: write  # 需要写入权限来创建 Release
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整 Git 历史，用于 manifest.json
+
+      # 2. 安装 pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      # 3. 安装 Node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      # 4. 安装依赖
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 5. 构建所有 workspace 包
+      - name: Build workspace packages
+        run: pnpm -r --filter "./packages/*" build
+
+      # 6. 构建 L1 产物
+      - name: Build L1 artifacts (dist)
+        run: pnpm build:l1
+
+      # 7. 构建 L2 发布物料
+      - name: Build L2 release artifacts
+        run: pnpm build:l2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 8. 上传到 GitHub Release
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            apps/desktop/release/*
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 生成 checksums.txt
+  checksums:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Generate checksums
+        run: |
+          cd artifacts
+          find . -type f -exec sha256sum {} \; | sort -k2 > checksums.txt
+          cat checksums.txt
+
+      - name: Upload checksums to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/checksums.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

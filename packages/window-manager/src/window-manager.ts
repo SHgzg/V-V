@@ -7,16 +7,22 @@ interface PersistedWindowState extends WindowDescriptor {}
 
 export class WindowManager {
   private windows = new Map<string, BrowserWindow>()
-  private stateFile: string
+  private stateFile: string | undefined
 
-  constructor() {
-    this.stateFile = path.join(app.getPath('userData'), 'layout.json')
+  private getStateFile(): string {
+    if (!this.stateFile) {
+      this.stateFile = path.join(app.getPath('userData'), 'layout.json')
+    }
+    return this.stateFile
   }
 
-  create(desc: WindowDescriptor, loadURL: string): BrowserWindow {
+  create(desc: WindowDescriptor, loadURL: string, preloadPath?: string): BrowserWindow {
     if (this.windows.has(desc.id)) {
       return this.windows.get(desc.id)!
     }
+
+    // 如果没有提供 preloadPath，使用默认路径
+    const resolvedPreloadPath = preloadPath || path.join(__dirname, '../preload/index.js')
 
     const win = new BrowserWindow({
       x: desc.bounds.x,
@@ -26,7 +32,7 @@ export class WindowManager {
       frame: false,
       titleBarStyle: 'hidden',
       webPreferences: {
-        preload: path.join(__dirname, '../preload/index.js'),
+        preload: resolvedPreloadPath,
         contextIsolation: true,
         nodeIntegration: false
       }
@@ -76,14 +82,15 @@ export class WindowManager {
       })
     }
 
-    fs.writeFileSync(this.stateFile, JSON.stringify(states, null, 2))
+    fs.writeFileSync(this.getStateFile(), JSON.stringify(states, null, 2))
   }
 
   restore(createWindow: (desc: WindowDescriptor) => void): void {
-    if (!fs.existsSync(this.stateFile)) return
+    const stateFile = this.getStateFile()
+    if (!fs.existsSync(stateFile)) return
 
     const states: PersistedWindowState[] = JSON.parse(
-      fs.readFileSync(this.stateFile, 'utf-8')
+      fs.readFileSync(stateFile, 'utf-8')
     )
 
     for (const state of states) {

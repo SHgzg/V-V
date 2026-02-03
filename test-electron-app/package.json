@@ -1,0 +1,16 @@
+{
+  "name": "test-electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^29.4.6"
+  },
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

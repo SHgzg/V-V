@@ -2,11 +2,22 @@
 node_modules/
 .pnpm-store/
 
-# Build outputs
+# Build outputs - L1 Artifacts
 dist/
+apps/desktop/dist/
+
+# Build outputs - Electron intermediate
+out/
+apps/desktop/out/
 dist-main/
 dist-preload/
 dist-renderer/
+
+# Build outputs - L2 Release Artifacts
+release/
+apps/desktop/release/
+
+# TypeScript
 *.tsbuildinfo
 
 # Workspace (runtime)
@@ -36,5 +47,17 @@ yarn-error.log*
 .env.local
 .env.*.local
 
-# Electron
-out/
+# Test files
+test-*.js
+test-*.ts
+diagnostic.js
+run-electron.sh
+start.bat
+start.ps1
+
+# Temporary files
+*.tmp
+.cache/
+
+# Build resources (generated)
+apps/desktop/build/

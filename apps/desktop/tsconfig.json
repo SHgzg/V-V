@@ -1,13 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["main/**/*", "preload/**/*"],
-  "exclude": ["dist", "renderer", "node_modules"]
+  "include": ["main/**/*", "preload/**/*", "renderer/**/*"],
+  "exclude": ["node_modules", "out"]
 }

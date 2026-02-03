@@ -2,11 +2,19 @@
   "name": "desktop",
   "version": "0.1.0",
   "private": true,
-  "main": "./dist/main/index.js",
-  "type": "module",
+  "main": "./out/main/index.js",
+  "description": "V-V PKM Desktop - Personal Knowledge Management System",
+  "author": {
+    "name": "V-V Team"
+  },
   "scripts": {
-    "dev": "pnpm build && electron .",
-    "build": "tsc",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "build:l1": "node ../../scripts/build-dist.js",
+    "build:l2": "electron-builder --config electron-builder.config.js",
+    "build:all": "pnpm build:l1 && pnpm build:l2",
+    "preview": "electron-vite preview",
+    "clean": "rimraf out dist",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -16,7 +24,70 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
-    "electron": "^30.5.1",
+    "electron": "^30.0.0",
+    "electron-builder": "^25.1.8",
+    "electron-updater": "^6.3.9",
+    "electron-vite": "^4.0.0",
+    "esbuild": "^0.24.0",
+    "rimraf": "^5.0.0",
     "typescript": "^5.3.3"
+  },
+  "build": {
+    "productName": "V-V PKM",
+    "appId": "com.v-v.pkm.desktop",
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraFiles": [],
+    "publish": {
+      "provider": "github",
+      "owner": "your-username",
+      "repo": "V-V"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office",
+      "icon": "build/icons"
+    }
   }
 }

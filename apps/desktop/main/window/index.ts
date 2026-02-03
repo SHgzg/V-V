@@ -1,9 +1,8 @@
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import type { WindowManager } from '@v-v/window-manager'
 import type { WindowDescriptor } from '@v-v/shared'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+declare const __dirname: string
 
 export function createMainWindow(
   manager: WindowManager,
@@ -27,5 +26,8 @@ export function createMainWindow(
   const htmlPath = path.join(__dirname, '../../renderer/index.html')
   const loadURL = `file://${htmlPath}`
 
-  manager.create(windowDesc, loadURL)
+  // 预加载脚本路径
+  const preloadPath = path.join(__dirname, '../preload/index.js')
+
+  manager.create(windowDesc, loadURL, preloadPath)
 }

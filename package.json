@@ -6,16 +6,30 @@
   "scripts": {
     "dev": "pnpm --filter desktop dev",
     "build": "pnpm --filter desktop build",
+    "build:l1": "pnpm --filter desktop build:l1",
+    "build:l2": "pnpm --filter desktop build:l2",
+    "build:all": "pnpm --filter desktop build:all",
     "preview": "pnpm --filter desktop preview",
-    "typecheck": "pnpm -r typecheck"
+    "clean": "pnpm -r clean && pnpm --filter desktop clean",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
+    "electron": "^30.5.1",
+    "rimraf": "^5.0.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.12"
   },
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
   }
 }

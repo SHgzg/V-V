@@ -14,7 +14,8 @@
       "Bash(pnpm install:*)",
       "Bash(node:*)",
       "Bash(git commit:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(pnpm dev)"
     ],
     "deny": [],
     "ask": []

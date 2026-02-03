@@ -2,12 +2,19 @@
   "name": "@v-v/git-adapter",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
+  "level": "L1",
+  "description": "Git 操作适配器 - Node 运行时库",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@v-v/shared": "workspace:*",

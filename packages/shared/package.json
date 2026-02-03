@@ -2,11 +2,18 @@
   "name": "@v-v/shared",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
+  "level": "L0",
+  "description": "共享类型定义和常量 - 纯类型/常量包",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
   }
 }
