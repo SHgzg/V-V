@@ -48,6 +48,24 @@ contextBridge.exposeInMainWorld('electronAPI', {
     list: () => ipcRenderer.invoke('sub-frontend:list'),
     send: (id: string, channel: string, data: unknown) => ipcRenderer.invoke('sub-frontend:send', id, channel, data),
     broadcast: (channel: string, data: unknown) => ipcRenderer.invoke('sub-frontend:broadcast', channel, data)
+  },
+
+  // 面板系统 API
+  panel: {
+    getLayout: () => ipcRenderer.invoke('panel:getLayout'),
+    setLayout: (config: any) => ipcRenderer.invoke('panel:setLayout', config),
+    addView: (config: PanelConfig) => ipcRenderer.invoke('panel:addView', config),
+    split: (request: SplitRequest) => ipcRenderer.invoke('panel:split', request),
+    removeView: (viewId: string) => ipcRenderer.invoke('panel:removeView', viewId),
+    activateView: (viewId: string) => ipcRenderer.invoke('panel:activateView', viewId),
+    getAllViews: () => ipcRenderer.invoke('panel:getAllViews'),
+    getView: (viewId: string) => ipcRenderer.invoke('panel:getView', viewId),
+    updateRatio: (nodeId: string, ratio: number) => ipcRenderer.invoke('panel:updateRatio', nodeId, ratio),
+    saveLayout: (name?: string) => ipcRenderer.invoke('panel:saveLayout', name),
+    loadLayout: (name?: string) => ipcRenderer.invoke('panel:loadLayout', name),
+    listLayouts: () => ipcRenderer.invoke('panel:listLayouts'),
+    deleteLayout: (name: string) => ipcRenderer.invoke('panel:deleteLayout', name),
+    toggleMinimize: (viewId: string) => ipcRenderer.invoke('panel:toggleMinimize', viewId)
   }
 })
 
@@ -80,4 +98,18 @@ export interface SubFrontendConfig {
   minHeight?: number
   resizable?: boolean
   alwaysOnTop?: boolean
+}
+
+export interface PanelConfig {
+  id: string
+  title: string
+  url: string
+  icon?: string
+}
+
+export interface SplitRequest {
+  viewId: string
+  newView: PanelConfig
+  direction: 'horizontal' | 'vertical'
+  ratio?: number
 }

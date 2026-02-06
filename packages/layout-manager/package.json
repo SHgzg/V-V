@@ -1,0 +1,22 @@
+{
+  "name": "@v-v/layout-manager",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "level": "L1",
+  "description": "多面板可拖拽分屏布局管理器 - VSCode 风格布局系统",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5"
+  }
+}

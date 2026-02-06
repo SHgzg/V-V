@@ -5,16 +5,18 @@ import { registerGitIpc } from './ipc/index.js'
 import { createMainWindow } from './window/index.js'
 import { setupAutoUpdater } from './updater/index.js'
 import { getSubFrontendManager } from './sub-frontends/manager.js'
+import { registerPanelIpc, getPanelIpcHandler } from './panel/index.js'
 
 let windowManager: WindowManager
 let mainWindow: BrowserWindow | null = null
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   windowManager = new WindowManager()
 
   // Register IPC handlers
   registerWindowIpc(windowManager)
   registerGitIpc()
+  registerPanelIpc()
 
   // 初始化子前端管理器
   const subFrontendManager = getSubFrontendManager()
@@ -27,6 +29,14 @@ app.whenReady().then(() => {
 
   if (windowManager['windows'].size === 0) {
     mainWindow = createMainWindow(windowManager)
+  }
+
+  // 初始化面板系统
+  const panelHandler = getPanelIpcHandler()
+  if (panelHandler && mainWindow) {
+    panelHandler.setMainWindow(mainWindow)
+    await panelHandler.initialize()
+    console.log('[Main] Panel system initialized')
   }
 
   // Setup auto-updater (only in production)

@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
             'electron',
             '@v-v/shared',
             '@v-v/git-adapter',
+            '@v-v/layout-manager',
             '@v-v/window-manager',
             // 禁止使用宽泛正则：/^@v-v\//
           ]

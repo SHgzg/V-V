@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>预览面板</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      background: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .panel-header-icon {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .preview-content {
+      height: calc(100vh - 45px);
+      padding: 30px 40px;
+      overflow-y: auto;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .preview-content h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .preview-content h2 {
+      font-size: 22px;
+      margin-top: 28px;
+      margin-bottom: 16px;
+      color: #333;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .preview-content h3 {
+      font-size: 18px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .preview-content p {
+      margin-bottom: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .preview-content ul, .preview-content ol {
+      margin: 14px 0;
+      padding-left: 28px;
+      color: #555;
+    }
+
+    .preview-content li {
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+
+    .preview-content code {
+      background: #f5f5f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9em;
+      color: #d63384;
+      border: 1px solid #e0e0e0;
+    }
+
+    .preview-content pre {
+      background: #282c34;
+      color: #abb2bf;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-content pre code {
+      background: transparent;
+      color: inherit;
+      border: none;
+      padding: 0;
+    }
+
+    .preview-content blockquote {
+      border-left: 4px solid #1890ff;
+      padding: 12px 16px;
+      margin: 16px 0;
+      color: #555;
+      background: #f0f5ff;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+    }
+
+    .preview-content a {
+      color: #1890ff;
+      text-decoration: none;
+      border-bottom: 1px dotted #1890ff;
+    }
+
+    .preview-content a:hover {
+      color: #40a9ff;
+      border-bottom-style: solid;
+    }
+
+    /* 表格样式 */
+    .preview-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-content thead {
+      background: #f5f7fa;
+    }
+
+    .preview-content th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid #e0e0e0;
+      color: #333;
+    }
+
+    .preview-content td {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .preview-content tbody tr:hover {
+      background: #f0f4f8;
+    }
+
+    /* 提示框样式 */
+    .notice {
+      margin: 16px 0;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .notice-info {
+      background: #e8f4ff;
+      border-left: 4px solid #1890ff;
+    }
+
+    .notice-success {
+      background: #f6ffed;
+      border-left: 4px solid #52c41a;
+    }
+
+    .notice-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    /* 功能卡片 */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      border-color: #1890ff;
+    }
+
+    .feature-card-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .feature-card-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .feature-card-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* 滚动条 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel-header">
+    <span class="panel-header-icon">👁️</span>
+    <span>预览面板</span>
+  </div>
+
+  <div class="preview-content">
+    <h1>欢迎使用多面板系统</h1>
+    <p>这是一个 VSCode 风格的可拖拽分屏布局系统，支持水平和垂直分割。</p>
+
+    <div class="notice notice-info">
+      <div class="notice-title">💡 提示</div>
+      点击左侧面板中的按钮可以创建不同的布局示例。
+    </div>
+
+    <h2>核心功能</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">📊</div>
+        <div class="feature-card-title">多面板布局</div>
+        <div class="feature-card-desc">支持水平和垂直分割，创建复杂的工作区布局</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">↔️</div>
+        <div class="feature-card-title">拖拽调整</div>
+        <div class="feature-card-desc">自由拖拽分割条调整面板大小</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">💾</div>
+        <div class="feature-card-title">布局持久化</div>
+        <div class="feature-card-desc">保存和恢复自定义布局配置</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">🎨</div>
+        <div class="feature-card-title">独立渲染</div>
+        <div class="feature-card-desc">每个面板独立的 BrowserView 渲染进程</div>
+      </div>
+    </div>
+
+    <h2>布局类型</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>布局类型</th>
+          <th>描述</th>
+          <th>应用场景</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>水平分屏</td>
+          <td>左右分割布局</td>
+          <td>编辑器 + 预览</td>
+        </tr>
+        <tr>
+          <td>垂直分屏</td>
+          <td>上下分割布局</td>
+          <td>代码 + 终端</td>
+        </tr>
+        <tr>
+          <td>四象限</td>
+          <td>2x2 网格布局</td>
+          <td>多文件对比</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>快速开始</h2>
+    <ol>
+      <li>点击侧边栏的 <strong>📊 面板演示</strong></li>
+      <li>选择任意布局按钮（水平、垂直或网格）</li>
+      <li>观察多面板系统的实际效果</li>
+      <li>尝试保存和加载布局</li>
+    </ol>
+
+    <h2>代码示例</h2>
+    <pre><code><span class="comment">// 创建面板布局</span>
+<span class="keyword">await</span> electronAPI.panel.addView({
+  <span class="string">id</span>: <span class="string">'main-view'</span>,
+  <span class="string">title</span>: <span class="string">'主面板'</span>,
+  <span class="string">url</span>: <span class="string">'./panels/file-browser.html'</span>
+})
+
+<span class="comment">// 分割面板</span>
+<span class="keyword">await</span> electronAPI.panel.split({
+  <span class="string">viewId</span>: <span class="string">'main-view'</span>,
+  <span class="string">newView</span>: { ... },
+  <span class="string">direction</span>: <span class="string">'horizontal'</span>,
+  <span class="string">ratio</span>: <span class="number">0.5</span>
+})</code></pre>
+
+    <blockquote>
+      <p>这个系统使用了 Electron 的 BrowserView API，每个面板都是独立的渲染进程，提供了出色的隔离性和性能。</p>
+    </blockquote>
+  </div>
+
+  <script>
+    console.log('[PreviewPanel] Loaded')
+  </script>
+</body>
+</html>

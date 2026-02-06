@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "electron-vite dev",
-    "build": "electron-vite build",
+    "build": "electron-vite build && npx shx cp -r renderer/panels out/renderer/",
     "build:l1": "node ../../scripts/build-dist.js",
     "build:l2": "electron-builder --config electron-builder.config.js",
     "build:all": "pnpm build:l1 && pnpm build:l2",
@@ -19,12 +19,13 @@
   },
   "dependencies": {
     "@v-v/git-adapter": "workspace:*",
+    "@v-v/layout-manager": "workspace:*",
     "@v-v/shared": "workspace:*",
     "@v-v/window-manager": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
-    "electron": "^30.0.0",
+    "electron": "28.3.3",
     "electron-builder": "^25.1.8",
     "electron-updater": "^6.3.9",
     "electron-vite": "^4.0.0",

@@ -262,7 +262,19 @@
         </div>
 
         <div class="sidebar-section">
+          <div class="sidebar-title">多面板系统</div>
+          <div class="sidebar-item" onclick="showSection('panels')">
+            <span class="sidebar-item-icon">📊</span>
+            <span class="sidebar-item-text">面板演示</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
           <div class="sidebar-title">快捷操作</div>
+          <div class="sidebar-item" onclick="openBlogWindow()">
+            <span class="sidebar-item-icon">📝</span>
+            <span class="sidebar-item-text">V-V Blog</span>
+          </div>
           <div class="sidebar-item" onclick="openExampleWindow()">
             <span class="sidebar-item-icon">🚀</span>
             <span class="sidebar-item-text">打开示例</span>
@@ -296,6 +308,7 @@
           </div>
 
           <div style="margin-top: 20px;">
+            <button class="btn" onclick="openBlogWindow()">📝 打开博客</button>
             <button class="btn" onclick="openExampleWindow()">打开示例子前端</button>
             <button class="btn secondary" onclick="openMultipleWindows()">打开多个示例</button>
           </div>
@@ -313,6 +326,43 @@
           <div style="margin-top: 20px;">
             <button class="btn" onclick="refreshWindowList()">刷新列表</button>
             <button class="btn secondary" onclick="closeAllWindows()">关闭所有</button>
+          </div>
+        </div>
+
+        <!-- 面板系统内容 -->
+        <div class="welcome" id="section-panels" style="display: none;">
+          <h2>多面板系统演示</h2>
+
+          <div class="card">
+            <h3>🎯 VSCode 风格分屏布局</h3>
+            <p>使用 BrowserView 实现的多面板分屏系统，支持水平和垂直分割、拖拽调整大小。</p>
+          </div>
+
+          <div class="card">
+            <h3>演示布局</h3>
+            <p>点击下方按钮创建不同的面板布局：</p>
+            <div style="margin-top: 15px;">
+              <button class="btn" onclick="createHorizontalSplit()">水平分屏</button>
+              <button class="btn" onclick="createVerticalSplit()">垂直分屏</button>
+              <button class="btn" onclick="createGridLayout()">四象限网格</button>
+              <button class="btn secondary" onclick="resetPanels()">重置面板</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>当前面板</h3>
+            <div id="panel-list" style="min-height: 60px; padding: 10px; background: #f9f9f9; border-radius: 8px;">
+              <p style="color: #999; font-size: 0.9em;">点击上方按钮创建面板</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>布局操作</h3>
+            <div style="margin-top: 10px;">
+              <button class="btn secondary" onclick="saveCurrentLayout()">保存布局</button>
+              <button class="btn secondary" onclick="loadLayout()">加载布局</button>
+              <button class="btn secondary" onclick="listLayouts()">列出所有布局</button>
+            </div>
           </div>
         </div>
       </main>
